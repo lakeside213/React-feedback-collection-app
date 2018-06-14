@@ -28,11 +28,12 @@ require('./routes/billingRoutes')(app);
 require('./routes/surveyRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
+  // server static files form client/build folder
   app.use(express.static('client/build'));
-
+  // if any react routes like surveys etc comes which this express server has no idea what to do
+  // return index html
   const path = require('path');
-
-  app('*', (req, res) => {
+  app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
